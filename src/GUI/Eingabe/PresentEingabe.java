@@ -120,15 +120,22 @@ public class PresentEingabe {
     }
 
     private void addEntries(){
+        eingabePanel.remove(enterPanel);
+        enterPanel = new JPanel();
+        entryBoxLayout = new BoxLayout(enterPanel, BoxLayout.Y_AXIS);
+        enterPanel.setLayout(entryBoxLayout);
         for(int i = 0; i < presents.size(); i++){
             PresentPanel pPanel = new PresentPanel(presents.get(i));
             System.out.println(presents.get(i));
 
             enterPanel.add(pPanel);
-            enterPanel.revalidate();
             enterPanel.repaint();
+            enterPanel.revalidate();
 
         }
+        eingabePanel.add(enterPanel);
+        eingabePanel.revalidate();
+        eingabePanel.repaint();
     }
 
 }
