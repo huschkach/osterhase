@@ -2,6 +2,7 @@ package SQL;
 
 import DatabaseOperations.DB;
 import Klassen.Address;
+import Klassen.Presents;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -36,6 +37,32 @@ public class SelectStmt {
         }
 
         return addresses;
+    }
+
+    public static List<Presents> findAllPresents(){
+        var presents = new ArrayList<Presents>();
+
+        var sql = "SELECT * FROM presents";
+
+        try(
+                var conn = DB.userconnect();
+                var stmt = conn.createStatement()
+        ){
+            var resultSet = stmt.executeQuery(sql);
+
+            while(resultSet.next()){
+                var present = new Presents(
+                        resultSet.getInt("presentid"),
+                        resultSet.getString("description"),
+                        resultSet.getString("color")
+                );
+                presents.add(present);
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return presents;
     }
 
     public static void main(String[] args) {

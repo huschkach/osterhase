@@ -72,5 +72,20 @@ public class OsterhasenGUI {
             }
         };
         addressButton.addActionListener(addressListener);
+
+        ActionListener presentListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                EventQueue.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        PresentFrame presentFrame = new PresentFrame();
+                        presentFrame.main();
+                    }
+                });
+            }
+        };
+        presentButton.addActionListener(presentListener);
     }
+
 }
