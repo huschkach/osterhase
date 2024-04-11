@@ -130,7 +130,4 @@ public class AddressFrame {
         scrollPane.repaint();
     }
 
-
-
-
 }

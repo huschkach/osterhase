@@ -3,6 +3,7 @@ package GUI.Eingabe;
 import GUI.AddressFrame;
 import Klassen.Address;
 import SQL.InsertStmt;
+import SQL.UpdateStmt;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,9 +31,14 @@ public class Adresseingabe {
     JPanel panel = new JPanel();
     GridBagLayout gbl = new GridBagLayout();
     GridBagConstraints gbc = new GridBagConstraints();
-    AddressFrame addressFrame;
+
+    Address address = null;
 
     public Adresseingabe(){ }
+
+    public Adresseingabe(Address adresse){
+        this.address = adresse;
+    }
 
     public void createFrame(){
         panel.setLayout(gbl);
@@ -44,6 +50,9 @@ public class Adresseingabe {
 
         streetTF.setPreferredSize(new Dimension(70, 20));
         gbc.gridx = 1;
+        if (this.address != null){
+            streetTF.setText(address.getStreet());
+        }
         panel.add(streetTF, gbc);
 
         gbc.gridx = 0;
@@ -52,6 +61,9 @@ public class Adresseingabe {
 
         hnrTF.setPreferredSize(new Dimension(70, 20));
         gbc.gridx = 1;
+        if (this.address != null){
+            hnrTF.setText(address.getHnr());
+        }
         panel.add(hnrTF, gbc);
 
         gbc.gridx = 0;
@@ -60,6 +72,9 @@ public class Adresseingabe {
 
         plzTF.setPreferredSize(new Dimension(70, 20));
         gbc.gridx = 1;
+        if (this.address != null){
+            plzTF.setText(address.getPlz());
+        }
         panel.add(plzTF, gbc);
 
         gbc.gridx = 0;
@@ -68,6 +83,9 @@ public class Adresseingabe {
 
         cityTF.setPreferredSize(new Dimension(70, 20));
         gbc.gridx = 1;
+        if (this.address != null){
+            cityTF.setText(address.getCity());
+        }
         panel.add(cityTF, gbc);
 
         gbc.gridx = 0;
@@ -76,6 +94,9 @@ public class Adresseingabe {
 
         countryTF.setPreferredSize(new Dimension(70, 20));
         gbc.gridx = 1;
+        if (this.address != null){
+            countryTF.setText(address.getCountry());
+        }
         panel.add(countryTF, gbc);
 
         gbc.gridx = 0;
@@ -88,7 +109,7 @@ public class Adresseingabe {
         frame.add(panel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        frame.setSize(120, 80);
+        frame.setSize(300, 200);
         frame.setVisible(true);
     }
 
@@ -122,8 +143,18 @@ public class Adresseingabe {
             // Langfristig durch PopUp ersetzen
             System.out.println("HNR oder PLZ entsprechen nicht den Erwartungen");
         } else {
-            Address address = new Address(street, hnr, plz, city, country);
-            InsertStmt.addAddress(address);
+            if (this.address == null){
+                address = new Address(street, hnr, plz, city, country);
+                InsertStmt.addAddress(address);
+            } else {
+                this.address.setStreet(street);
+                this.address.setHnr(hnr);
+                this.address.setPlz(plz);
+                this.address.setCity(city);
+                this.address.setCountry(country);
+                UpdateStmt.updateAddress(this.address);
+            }
+
             frame.dispose();
         }
     }

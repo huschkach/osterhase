@@ -29,7 +29,9 @@ public class PresentEingabe {
     BoxLayout entryBoxLayout = new BoxLayout(enterPanel, BoxLayout.Y_AXIS);
     BoxLayout eingabeLayout = new BoxLayout(eingabePanel, BoxLayout.Y_AXIS);
 
-    JScrollPane scrollPane = new JScrollPane();
+    JScrollPane scrollPane = new JScrollPane(enterPanel,
+            ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
     JButton execute = new JButton("Liste übertragen");
     JButton addEntry = new JButton("Eintrag hinzufügen");
@@ -70,9 +72,9 @@ public class PresentEingabe {
         eingabePanel.add(newEntryPanel);
 
         enterPanel.setLayout(entryBoxLayout);
-        //scrollPane.add(enterPanel);
-        //scrollPane.setSize(400, 300);
-        eingabePanel.add(enterPanel);
+
+        scrollPane.setPreferredSize(new Dimension(400, 300));
+        eingabePanel.add(scrollPane);
 
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(eingabePanel);
@@ -139,10 +141,11 @@ public class PresentEingabe {
             System.out.println(presents.get(i));
 
             enterPanel.add(pPanel);
-
         }
         enterPanel.revalidate();
         enterPanel.repaint();
+        scrollPane.revalidate();
+        scrollPane.repaint();
     }
 
 }
