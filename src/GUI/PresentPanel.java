@@ -19,8 +19,6 @@ public class PresentPanel extends Panel {
         this.descriptionLabel.setText(present.getDescription());
         this.colorLabel.setText(present.getColor());
 
-        this.panel.setLayout(boxLayout);
-
         this.panel.add(descriptionLabel);
         this.panel.add(colorLabel);
 

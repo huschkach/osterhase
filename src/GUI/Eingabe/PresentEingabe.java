@@ -2,6 +2,7 @@ package GUI.Eingabe;
 
 import GUI.PresentPanel;
 import Klassen.Presents;
+import SQL.InsertStmt;
 
 import javax.swing.*;
 import java.awt.*;
@@ -117,25 +118,31 @@ public class PresentEingabe {
             }
         };
         addEntry.addActionListener(addEntryListener);
+
+        ActionListener addToDatabaseListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(int i = 0; i < presents.size(); i++){
+                    InsertStmt.addPresent(presents.get(i));
+                }
+                frame.dispose();
+            }
+        };
+        execute.addActionListener(addToDatabaseListener);
     }
 
     private void addEntries(){
-        eingabePanel.remove(enterPanel);
-        enterPanel = new JPanel();
-        entryBoxLayout = new BoxLayout(enterPanel, BoxLayout.Y_AXIS);
-        enterPanel.setLayout(entryBoxLayout);
+        enterPanel.removeAll();
+
         for(int i = 0; i < presents.size(); i++){
             PresentPanel pPanel = new PresentPanel(presents.get(i));
             System.out.println(presents.get(i));
 
             enterPanel.add(pPanel);
-            enterPanel.repaint();
-            enterPanel.revalidate();
 
         }
-        eingabePanel.add(enterPanel);
-        eingabePanel.revalidate();
-        eingabePanel.repaint();
+        enterPanel.revalidate();
+        enterPanel.repaint();
     }
 
 }

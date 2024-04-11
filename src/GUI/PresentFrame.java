@@ -1,6 +1,5 @@
 package GUI;
 
-import GUI.Eingabe.Adresseingabe;
 import GUI.Eingabe.PresentEingabe;
 import SQL.SelectStmt;
 

@@ -1,12 +1,17 @@
 package GUI;
 
 import GUI.Eingabe.Adresseingabe;
+import Klassen.Address;
+import SQL.SearchStmt;
 import SQL.SelectStmt;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class AddressFrame {
     JFrame frame = new JFrame("AdressVerwaltung");
@@ -15,16 +20,22 @@ public class AddressFrame {
     JButton saveExitButton = new JButton("Speichern & Zurück");
     JButton createButton = new JButton("Erstellen");
 
+    JLabel searchLabel = new JLabel("Suche: ");
+    JTextField searchTF = new JTextField();
+
+    ArrayList<Address> addresses = new ArrayList<>();
+
+
     BoxLayout tableBox = new BoxLayout(tablePanel, BoxLayout.Y_AXIS);
+
+    JPanel panel = new JPanel();
+
+    GridBagConstraints gbc = new GridBagConstraints();
+    GridBagLayout gbl = new GridBagLayout();
 
     public AddressFrame(){}
 
     private void createAddressFrame(){
-        JPanel panel = new JPanel();
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        GridBagLayout gbl = new GridBagLayout();
-
         panel.setLayout(gbl);
         gbl.setConstraints(panel, gbc);
 
@@ -48,11 +59,16 @@ public class AddressFrame {
         gbc.gridx = 5;
         panel.add(saveExitButton, gbc);
 
-        var addresses = SelectStmt.findAllAddresses();
-        for(int i = 0; i < addresses.size(); i++){
-            AddressPanel aPanel = new AddressPanel(addresses.get(i));
-            tablePanel.add(aPanel);
-        }
+        gbc.gridx = 0;
+        gbc.gridy = 12;
+        panel.add(searchLabel, gbc);
+
+        searchTF.setPreferredSize(new Dimension(70, 20));
+        gbc.gridx = 3;
+        panel.add(searchTF, gbc);
+
+        updateAddresses();
+
 
         frame.add(panel);
         frame.setSize(900, 700);
@@ -79,5 +95,38 @@ public class AddressFrame {
             }
         };
         createButton.addActionListener(createListener);
+
+        ActionListener enterListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateAddresses();
+            }
+        };
+        searchTF.addActionListener(enterListener);
     }
+
+    private void updateAddresses(){
+        String searchText = searchTF.getText();
+        if (searchText.isEmpty()){
+            System.out.println("Searchtext: " + searchText);
+            addresses = SelectStmt.findAllAddresses();
+        } else {
+            System.out.println("Searching: " + searchText);
+            addresses = SearchStmt.searchAllAddresses(searchText);
+        }
+        tablePanel.removeAll();
+
+
+        for(int i = 0; i < addresses.size(); i++){
+            AddressPanel aPanel = new AddressPanel(addresses.get(i));
+            tablePanel.add(aPanel);
+        }
+
+        tablePanel.revalidate();
+        tablePanel.repaint();
+    }
+
+
+
+
 }

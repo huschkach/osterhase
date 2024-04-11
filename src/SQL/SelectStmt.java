@@ -10,7 +10,7 @@ import java.util.List;
 
 public class SelectStmt {
 
-    public static List<Address> findAllAddresses(){
+    public static ArrayList<Address> findAllAddresses(){
         var addresses = new ArrayList<Address>();
 
         var sql = "SELECT * FROM address";

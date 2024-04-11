@@ -18,6 +18,7 @@ public class AddressPanel extends Panel {
     public AddressPanel(){}
 
     public AddressPanel(Address address){
+
         this.streetLabel.setText(address.getStreet());
         this.hnrLabel.setText(address.getHnr());
         this.plzLabel.setText(address.getPlz());
