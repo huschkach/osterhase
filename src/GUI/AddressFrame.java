@@ -6,8 +6,6 @@ import SQL.SearchStmt;
 import SQL.SelectStmt;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +14,9 @@ import java.util.ArrayList;
 public class AddressFrame {
     JFrame frame = new JFrame("AdressVerwaltung");
     JPanel tablePanel = new JPanel();
+    JScrollPane scrollPane = new JScrollPane(tablePanel,
+            ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     JButton backButton = new JButton("Zurück");
     JButton saveExitButton = new JButton("Speichern & Zurück");
     JButton createButton = new JButton("Erstellen");
@@ -41,11 +42,12 @@ public class AddressFrame {
 
         tablePanel.setLayout(tableBox);
 
+        scrollPane.setPreferredSize(new Dimension(600, 500));
         gbc.gridy = 0;
         gbc.gridx = 0;
         gbc.gridwidth = 6;
         gbc.gridheight = 10;
-        panel.add(tablePanel, gbc);
+        panel.add(scrollPane, gbc);
 
         gbc.gridy = 10;
         gbc.gridx = 0;
@@ -92,6 +94,7 @@ public class AddressFrame {
             public void actionPerformed(ActionEvent e) {
                 Adresseingabe adresseingabe = new Adresseingabe();
                 adresseingabe.main();
+                updateAddresses();
             }
         };
         createButton.addActionListener(createListener);
@@ -121,9 +124,10 @@ public class AddressFrame {
             AddressPanel aPanel = new AddressPanel(addresses.get(i));
             tablePanel.add(aPanel);
         }
-
         tablePanel.revalidate();
         tablePanel.repaint();
+        scrollPane.revalidate();
+        scrollPane.repaint();
     }
 
 

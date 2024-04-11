@@ -1,5 +1,6 @@
 package GUI.Eingabe;
 
+import GUI.AddressFrame;
 import Klassen.Address;
 import SQL.InsertStmt;
 
@@ -29,8 +30,9 @@ public class Adresseingabe {
     JPanel panel = new JPanel();
     GridBagLayout gbl = new GridBagLayout();
     GridBagConstraints gbc = new GridBagConstraints();
+    AddressFrame addressFrame;
 
-    public Adresseingabe(){}
+    public Adresseingabe(){ }
 
     public void createFrame(){
         panel.setLayout(gbl);
